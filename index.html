@@ -6,10 +6,35 @@
     <title>Document</title>
     <script src="app.js"></script>
 </head>
-<body>
-    <select name="country" id="country">
+<body onload="weatherapp()">
+    <select name="country" id="country" onchange="getstates(value)">
 
         <option value="">--select country---</option>
     </select>
-    
+    <br><br>
+    <select name="state" id="state" onchange="getcities(value)">
+
+        <option value="">--select state---</option>
+    </select>
+
+    <br><br>
+    <select name="ct" id="ct" onchange="checkweather(value)">
+
+        <option value="">--select City---</option>
+    </select>
+
+    <br><br>
+    <!-- <input type="text" id="weather">
+    <button onclick="checkweather()">Check</button> -->
+    <div>
+
+        <h2>City : <span id="city"></span></h2>
+        <h2>Temp : <span id="temp"></span></h2>
+        <h2>Pressure : <span id="pressure"></span></h2>
+        <h2>Humidity : <span id="humidity"></span></h2>
+        
+
+    </div>
+
+
 </html>
