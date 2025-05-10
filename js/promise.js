@@ -46,17 +46,18 @@ const studentDetails = (rollno)=>{
 //     console.log(err);
 // })
 
-const call = async ()=>{
-    try{
-        const data = await getStudent(100)
-        const resp = await studentDetails(data)
-        console.log(resp);
-    }catch(err){
-        console.log(err);
+// const call = async ()=>{
+//     try{
+//         const data = await getStudent(100)
+//         const resp = await studentDetails(data)
+//         console.log(resp);
+//     }catch(err){
+//         console.log(err);
         
-    }
-    
-    
-}
+//     } 
+// }
 
-call()
+// call()
+
+
+

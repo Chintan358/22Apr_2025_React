@@ -133,3 +133,5 @@ const checkweather = (city)=>{
     var cityname = city+","+stateid+","+countryid
     geocode(cityname)
 }
+
+
