@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-
+import style from "./AddTask.module.css"
 const AddTask = ({adddatahandler})=>{
 
     // const [task, settask] = useState("")
@@ -21,8 +21,8 @@ const AddTask = ({adddatahandler})=>{
      {/* <input type="text" name="task" id="task" onChange={settaskdata}/> */}
      {/* <button onClick={addtodo}>Add</button> */}
      <form action="" onSubmit={addtodo}>
-     <input type="text" name="task" id="task" ref={data}/>
-     <button type="submit">Add</button>
+     <input type="text" name="task" id="task" className={style.input} ref={data}/>
+     <button type="submit" className={style.input}>Add</button>
      </form>
     </>
 }
