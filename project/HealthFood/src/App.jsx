@@ -13,8 +13,9 @@ const App = () => {
     if(e.key=='Enter')
     {   
       setFoodItems([...foodItems,e.target.value]) 
+      e.target.value = '';
     }
-
+   
   }
 
   const deleteelement = (ele)=>{
