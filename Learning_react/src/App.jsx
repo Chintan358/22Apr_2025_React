@@ -1,5 +1,8 @@
 import { useState } from "react"
-
+import {Title,Para}  from "./Components/Title"
+import './App.css'
+import { Header } from "./Components/Header"
+import StyledCss from "./Components/StyledCss"
 const App = ()=>{
 
     
@@ -14,9 +17,13 @@ const App = ()=>{
         setcount(count+1)
     }
     return <>
+    <Header/>
+    <Title /><Para/>
     <button  onClick={decrement} className=""  >-</button>
     <span id="test">{count}</span>
     <button  onClick={increment}>+</button>
+
+    <StyledCss/>
     </>
 }
 export default App
