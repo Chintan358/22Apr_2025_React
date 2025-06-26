@@ -33,13 +33,35 @@ const BookContextProvider = (props)=>{
             id : 4,
             date:1,
             name:"adffdbc",
-            debit :0,
-            credit:6000,
+            debit :6000,
+            credit:0,
         }
     ]
-    const [data, setdata] = useState(d1)
+    const [data, setdata] = useState([])
 
-    return <BookContext.Provider value={{data}}>
+    const addData = (datatosave)=>{
+        
+            if(datatosave.credit==0)
+            {
+                var currentbalance = 0
+                data.map(ele=>{
+                    currentbalance+=ele.credit-ele.debit
+                })
+                
+                if(datatosave.debit>currentbalance)
+                {
+                   return alert("bas kar!!!")
+                }    
+
+            }
+            setdata([...data,datatosave])
+           
+       
+       
+        
+    }
+
+    return <BookContext.Provider value={{data,addData}}>
             {props.children }
         </BookContext.Provider>
      

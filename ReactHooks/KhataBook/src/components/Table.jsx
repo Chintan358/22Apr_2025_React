@@ -29,7 +29,7 @@ export const Table = ()=>{
                     data.map((ele)=>{
                         
                         cb += (ele.credit-ele.debit)
-                        console.log(cb);
+                        
 
                        return <Records key={ele.id} ele={ele} cb={cb}></Records>
                     
