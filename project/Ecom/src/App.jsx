@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Home } from "./components/Home";
-import ProductContextProvider from "./store/productcontext";
+import ProductContextProvider, { ProductContext } from "./store/productcontext";
+import { Details } from "./components/Details";
 
 export const App = () => {
-  
+  const { tab } = useContext(ProductContext);
 
-  return (
-    <>
-      <ProductContextProvider>
-        <Home></Home>
-      </ProductContextProvider>
-    </>
-  );
+  // console.log(tab);
+
+  return <>{tab == "Home" ? <Home></Home> : <Details></Details>}</>;
 };

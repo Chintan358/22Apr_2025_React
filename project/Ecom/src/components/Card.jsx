@@ -1,6 +1,22 @@
+import { useContext } from "react";
+import { ProductContext } from "../store/productcontext";
+
 export const Card = ({ ele }) => {
+  const { setTab, setVid } = useContext(ProductContext);
   const viewProduct = (id) => {
-        
+    setVid(id);
+    setTab("View");
+  };
+
+  const addtocart = (id) => {
+    const obj = { uid: 2, pid: id, qty: 1 };
+    fetch("http://localhost:3000/carts", {
+      method: "post",
+      headers: {
+        ContentType: "text/json",
+      },
+      body: JSON.stringify(obj),
+    });
   };
 
   return (
@@ -34,8 +50,9 @@ export const Card = ({ ele }) => {
                 <button
                   type="button"
                   className="btn btn-sm btn-outline-secondary"
+                  onClick={() => addtocart(ele.id)}
                 >
-                  Edit
+                  Add To Cart
                 </button>{" "}
               </div>{" "}
               <small className="text-body-secondary">9 mins</small>{" "}

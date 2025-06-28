@@ -5,6 +5,7 @@ export const ProductContext = createContext();
 const ProductContextProvider = (props) => {
   const [products, setproducts] = useState([]);
   const [tab, setTab] = useState("Home");
+  const [vid, setVid] = useState();
 
   const fetchProducts = () => {
     fetch("https://fakestoreapi.com/products")
@@ -17,7 +18,7 @@ const ProductContextProvider = (props) => {
   }, []);
 
   return (
-    <ProductContext.Provider value={{ products }}>
+    <ProductContext.Provider value={{ products, tab, setTab, vid, setVid }}>
       {props.children}
     </ProductContext.Provider>
   );
