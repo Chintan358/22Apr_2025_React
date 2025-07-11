@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { PostContext } from "../store/PostContext";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
-  const { posts } = useContext(PostContext);
+  const { posts, deletePost } = useContext(PostContext);
 
   return (
     <>
@@ -13,6 +14,17 @@ export const Home = () => {
             <h3>{ele.title}</h3>
             <hr />
             <p>{ele.content}</p>
+            <button
+              className="btn btn-danger"
+              onClick={() => deletePost(ele.id)}
+            >
+              delete
+            </button>
+            <br />
+
+            <Link to={"/create"} state={ele.id} className="btn btn-primary">
+              Edit
+            </Link>
           </div>
         ))}
       </div>

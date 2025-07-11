@@ -1,17 +1,32 @@
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { PostContext } from "../store/PostContext";
+import { useLocation } from "react-router-dom";
+import { EvaluatedModules } from "vite/module-runner";
 
 export const Create = () => {
-  const { addPost } = useContext(PostContext);
+  const location = useLocation();
+  const { addPost, posts } = useContext(PostContext);
 
-  const category = useRef();
-  const title = useRef();
-  const content = useRef();
+  const category = useRef("");
+  const title = useRef("");
+  const content = useRef("");
+
+  const id = location.state;
+  let post = posts.find((ele) => ele.id == id);
+
+  useEffect(() => {
+    if (post) {
+      category.current.value = post.category;
+      title.current.value = post.title;
+      content.current.value = post.content;
+    }
+  }, [id, post]);
 
   const submitHandler = (e) => {
     e.preventDefault();
 
     const data = {
+      id: id,
       category: category.current.value,
       title: title.current.value,
       content: content.current.value,
