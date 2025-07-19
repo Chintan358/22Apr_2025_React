@@ -10,8 +10,6 @@ import { ShopContext } from "../store/ShopContext";
 
 export const Home = () => {
   const { products } = useContext(ShopContext);
-  const a = Array.from({length:5});
-  console.log(a);
 
   return (
     <>
@@ -91,7 +89,11 @@ export const Home = () => {
                 {products.map((ele) => (
                   <div className="product__item">
                     <div className="product__banner">
-                      <a href="details.html" className="product__images">
+                      <Link
+                        to="/details"
+                        state={ele.id}
+                        className="product__images"
+                      >
                         <img
                           src={ele.image}
                           alt=""
@@ -104,7 +106,7 @@ export const Home = () => {
                           alt=""
                           className="product__img hover"
                         />
-                      </a>
+                      </Link>
                       <div className="product__actions">
                         <a
                           href="#"
@@ -132,11 +134,13 @@ export const Home = () => {
                     </div>
                     <div className="product__content">
                       <span className="product__category">{ele.category}</span>
-                      <a href="details.html">
+                      <Link to="/details" state={ele.id}>
                         <h3 className="product__title">{ele.title}</h3>
-                      </a>
+                      </Link>
                       <div className="product__rating">
-                        {Array.from({length:Math.round(ele.rating.rate)}).map((ele) => (
+                        {Array.from({
+                          length: Math.round(ele.rating.rate),
+                        }).map((ele) => (
                           <i className="fi fi-rs-star"></i>
                         ))}
                       </div>

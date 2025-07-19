@@ -8,6 +8,7 @@ import { Compare } from "./pages/Compare.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Wishlist } from "./pages/Wishlist.jsx";
 import { Cart } from "./pages/Cart.jsx";
+import { Details } from "./pages/Details.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        path: "/details",
+        element: <Details />,
       },
     ],
   },
