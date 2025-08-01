@@ -11,7 +11,7 @@ function App() {
   const count = useSelector((state)=>state.counter.value)
   const todo = useSelector((state)=>state.todo)
 
-  console.log(todo);
+ 
   
   const dispatch = useDispatch()
   
