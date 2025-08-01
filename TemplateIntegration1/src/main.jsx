@@ -9,8 +9,6 @@ import { Login } from "./pages/Login.jsx";
 import { Wishlist } from "./pages/Wishlist.jsx";
 import { Cart } from "./pages/Cart.jsx";
 import { Details } from "./pages/Details.jsx";
-import { store } from './app/store'
-import { Provider } from 'react-redux'
 
 const router = createBrowserRouter([
   {
@@ -54,8 +52,5 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-
-  <Provider store={store}>
-    <RouterProvider router={router}></RouterProvider>
-  </Provider>
+  <RouterProvider router={router}></RouterProvider>
 );

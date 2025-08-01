@@ -8,65 +8,67 @@ import { addtodo } from './features/counter/todoSlice'
 
 function App() {
 
-  const count = useSelector((state)=>state.counter.value)
-  const todo = useSelector((state)=>state.todo)
+  const count = useSelector((state) => state.counter.value)
+  const todo = useSelector((state) => state.todo)
 
- 
-  
+
+
   const dispatch = useDispatch()
-  
-  const incHandler = ()=>{
+
+  const incHandler = () => {
     dispatch(increment())
   }
 
-  const decHandler = ()=>{
+  const decHandler = () => {
     dispatch(decrement())
   }
 
-  const resetHandler = ()=>{
+  const resetHandler = () => {
     dispatch(reset())
   }
 
-  const incByAmt = (value)=>{
-    
-    if(!isNaN(value))
-    {
-      console.log("y");
-      
-    dispatch(incrementByAmount(value))
-    }
-    else{
+  const incByAmt = (e) => {
 
-      console.log("N");
-      
-      dispatch(addtodo(value))
+    var value = e.target.value
+
+
+    if (!isNaN(value)) {
+
+      dispatch(incrementByAmount(value))
+
     }
-    
+    else {
+
+      dispatch(addtodo(value))
+
+    }
+
+    e.target.value = ""
 
   }
 
 
   return (
     <>
-      
+
       <div className="card">
-        <input type="text" onBlur={(e)=>incByAmt(e.target.value)} />
+        <input type="text" onBlur={incByAmt} />
         <br />
-        <button onClick={()=>dispatch(increment())} >+</button>
-          count is {count}
-         <button onClick={decHandler}>-</button>
-         <br />
-         <button onClick={resetHandler}>Reset</button>
+        <button onClick={() => dispatch(increment())} >+</button>
+        count is {count}
+        <button onClick={decHandler}>-</button>
+        <br />
+        <button onClick={resetHandler}>Reset</button>
       </div>
 
       <div>
         <h1>TODO</h1>
         <ul>
-          {todo.map(ele=><li>{ele}</li>)}
+          {todo.map(ele => <li>{ele}</li>)}
         </ul>
       </div>
 
-    
+
     </>
   )
 }

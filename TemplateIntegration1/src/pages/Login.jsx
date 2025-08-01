@@ -1,29 +1,4 @@
-import { useRef } from "react";
-import { useDispatch } from "react-redux";
-import { userLogin } from "../features/users/loginSlice";
-
 export const Login = () => {
-
-
-  const dispatch = useDispatch()
-  const username = useRef()
-  const password = useRef()
-
-  const loginHandler = (e) => {
-    e.preventDefault()
-
-    const data = {
-      username: username.current.value,
-      password: password.current.value
-    }
-
-    dispatch(userLogin(data))
-
-  }
-
-
-
-
   return (
     <>
       <main class="main">
@@ -47,21 +22,19 @@ export const Login = () => {
           <div class="login-register__container container grid">
             <div class="login">
               <h3 class="section__title">Login</h3>
-              <form class="form grid" onSubmit={loginHandler}>
+              <form class="form grid">
                 <input
-                  type="text"
-                  placeholder="Your username"
+                  type="email"
+                  placeholder="Your Email"
                   class="form__input"
-                  ref={username}
                 />
                 <input
                   type="password"
                   placeholder="Your Password"
                   class="form__input"
-                  ref={password}
                 />
                 <div class="form__btn">
-                  <button class="btn" type="submit">Login</button>
+                  <button class="btn">Login</button>
                 </div>
               </form>
             </div>

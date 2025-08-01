@@ -5,20 +5,11 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { displayProduct } from "../features/products/productSlice";
-
+import { useContext } from "react";
+import { ShopContext } from "../store/ShopContext";
 
 export const Home = () => {
-
-  const products = useSelector((state) => state.product.data)
- 
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(displayProduct())
-  }, [])
+  const { products } = useContext(ShopContext);
 
   return (
     <>

@@ -1,14 +1,11 @@
-
-import { useSelector } from "react-redux";
+import { useContext } from "react";
 import { useLocation } from "react-router-dom";
-
+import { ShopContext } from "../store/ShopContext";
 
 export const Details = () => {
-
+  const { products } = useContext(ShopContext);
   const location = useLocation();
   const id = location.state;
-
-  const products = useSelector((state) => state.product.data)
 
   const product = products.find((ele) => ele.id == id);
 
