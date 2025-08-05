@@ -5,14 +5,19 @@ const app = express()
 require("dotenv").config()
 const PORT = process.env.PORT
 const mongoose = require("mongoose")
-
+app.use(express.json())
+// https://two2apr-2025-react.onrender.com/
 mongoose.connect(process.env.DBURL).then(() => {
     console.log("Db connected");
 }).catch(err => {
     console.log(err);
 })
 
-app.get("/",(req,resp)=>{
+
+app.use("/users", require("../router/userrouter"))
+
+
+app.get("/", (req, resp) => {
     resp.send("NODE API - for ECOMMERECE WEBSITE")
 })
 
