@@ -5,6 +5,7 @@ const app = express()
 require("dotenv").config()
 const PORT = process.env.PORT
 const mongoose = require("mongoose")
+const path = require("path")
 app.use(express.json())
 // https://two2apr-2025-react.onrender.com/
 mongoose.connect(process.env.DBURL).then(() => {
@@ -16,8 +17,11 @@ mongoose.connect(process.env.DBURL).then(() => {
 
 app.use("/users", require("../router/userrouter"))
 app.use("/categories", require("../router/categoryrouter"))
+app.use("/products", require("../router/productrouter"))
 
 
+
+app.use(express.static(path.join(__dirname, 'img')))
 app.get("/", (req, resp) => {
     resp.send("NODE API - for ECOMMERECE WEBSITE")
 })
