@@ -34,7 +34,7 @@ router.post("/", upload.single('file'), async (req, resp) => {
 router.get('/image/:name', (req, res) => {
     const imageName = req.params.name;
     const mpath = path.resolve(__dirname, '..')
-    console.log(mpath);
+    console.log("test : " + mpath);
 
     const imagePath = path.join(mpath, 'img', imageName);
 
