@@ -7,7 +7,7 @@ const { route } = require("./categoryrouter");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './img'); // Images will be saved in the 'img' directory
+        cb(null, '/opt/render/project/src/API/img'); // Images will be saved in the 'img' directory
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname)); // Unique filename with original extension
