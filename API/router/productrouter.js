@@ -4,22 +4,30 @@ const Product = require("../model/products")
 const path = require("path");
 const { log } = require("console");
 const { route } = require("./categoryrouter");
+const cloudinary = require("cloudinary").v2
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, '/opt/render/project/src/API/img'); // Images will be saved in the 'img' directory
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname)); // Unique filename with original extension
+
+cloudinary.config({
+    cloud_name: process.env.CNAME,
+    api_key: process.env.APIKEY,
+    api_secret: process.env.APISECRET
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: "img", // Cloudinary folder name
+        allowed_formats: ["jpg", "png", "jpeg", "webp"]
     }
 });
 
-
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 router.post("/", upload.single('file'), async (req, resp) => {
 
-    req.body.image_url = req.file.filename
+
+    req.body.image_url = req.file.path
     try {
         const product = new Product(req.body)
         const savedProduct = await product.save()
@@ -30,34 +38,35 @@ router.post("/", upload.single('file'), async (req, resp) => {
     }
 })
 
+router.put("/:id", upload.single('file'), async (req, resp) => {
 
-router.get('/image/:name', (req, res) => {
-    const imageName = req.params.name;
-    const mpath = path.resolve(__dirname, '..')
-    console.log("test : " + mpath);
 
-    const imagePath = path.join(mpath, 'img', imageName);
+    const id = req.params.id
+    req.body.image_url = req.file.path
+    try {
 
-    res.sendFile(imagePath, err => {
-        if (err) {
-            console.log(err);
+        const updatedProduct = await Product.findByIdAndUpdate(id, req.body)
+        resp.status(201).send(updatedProduct)
 
-            res.status(404).send('Image not found');
-        }
-    });
-});
+    } catch (error) {
+        resp.send(error)
+    }
+})
+
 
 
 router.get("/", async (req, resp) => {
     try {
         const products = await Product.find()
-        products.map(ele => {
-            ele.image_url = process.env.IMGURL + "/products/image/" + ele.image_url
-        })
+        // products.map(ele => {
+        //     ele.image_url = process.env.IMGURL + "/products/image/" + ele.image_url
+        // })
         resp.status(200).send(products)
     } catch (error) {
 
     }
 })
+
+
 
 module.exports = router
