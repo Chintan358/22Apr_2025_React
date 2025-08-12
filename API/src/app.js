@@ -18,6 +18,7 @@ mongoose.connect(process.env.DBURL).then(() => {
 app.use("/users", require("../router/userrouter"))
 app.use("/categories", require("../router/categoryrouter"))
 app.use("/products", require("../router/productrouter"))
+app.use("/carts", require("../router/cartrouter"))
 
 
 
