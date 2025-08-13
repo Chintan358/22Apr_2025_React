@@ -96,25 +96,33 @@ router.post("/login", async (req, resp) => {
 
     try {
 
+
+
         const { email, password } = req.body
         const user = await User.findOne({ "email": email })
+
         if (user) {
+
 
             const ischeck = await bcrypt.compare(password, user.password)
             if (ischeck) {
 
                 const token = await jwt.sign({ _id: user._id, role: user.role }, process.env.SKEY)
                 const data = {
-                    "auth-token": token
+                    "authtoken": token
                 }
                 resp.send(data)
             }
             else {
-                resp.send("Invalid credentials")
+
+
+
+                resp.send({ "error": "Invalid credentials" })
             }
         }
         else {
-            resp.send("Invalid credentials")
+
+            resp.send({ "error": "Invalid credentials" })
         }
 
 

@@ -113,7 +113,7 @@ router.delete("/:id", auth, async (req, resp) => {
 router.get("/category/:id", async (req, resp) => {
     const id = req.params.id
     try {
-        const products = await Product.find({ category: id }).populate("category")
+        const products = await Product.find ({ category: id }).populate("category")
         // products.map(ele => {
         //     ele.image_url = process.env.IMGURL + "/products/image/" + ele.image_url
         // })

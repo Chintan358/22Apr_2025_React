@@ -5,13 +5,13 @@ const auth = async (req, resp, next) => {
 
     try {
 
-        const token = req.header('auth-token')
+        const token = req.header('authtoken')
         const Verified = jwt.verify(token, process.env.SKEY)
 
         if (Verified) {
 
             req.user = await User.findOne({ _id: Verified._id })
-           
+
             next()
         }
         else {
