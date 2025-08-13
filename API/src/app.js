@@ -6,6 +6,9 @@ require("dotenv").config()
 const PORT = process.env.PORT
 const mongoose = require("mongoose")
 const path = require("path")
+const cors = require("cors")
+
+app.use(cors())
 app.use(express.json())
 // https://two2apr-2025-react.onrender.com/
 mongoose.connect(process.env.DBURL).then(() => {
