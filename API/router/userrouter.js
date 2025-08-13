@@ -104,7 +104,10 @@ router.post("/login", async (req, resp) => {
             if (ischeck) {
 
                 const token = await jwt.sign({ _id: user._id, role: user.role }, process.env.SKEY)
-                resp.send("auth-token : " + token)
+                const data = {
+                    "auth-token": token
+                }
+                resp.send(data)
             }
             else {
                 resp.send("Invalid credentials")
