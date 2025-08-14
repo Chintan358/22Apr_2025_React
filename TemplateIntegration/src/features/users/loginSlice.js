@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export const userLogin = createAsyncThunk('userLogin', async (data) => {
 
-
-    const response = await fetch("https://fakestoreapi.com/auth/login",
+    const response = await fetch("https://two2apr-2025-react.onrender.com/users/login",
         {
             method: "POST",
             headers: {
@@ -15,7 +14,8 @@ export const userLogin = createAsyncThunk('userLogin', async (data) => {
         })
 
 
-    return (await response).json()
+
+    return await response.json()
 })
 
 
@@ -33,8 +33,10 @@ export const loginSlice = createSlice({
         })
 
         builder.addCase(userLogin.fulfilled, (state, action) => {
+
+
             state.isLoading = false
-            state.token = action.payload.token
+            state.token = action.payload
 
 
         })

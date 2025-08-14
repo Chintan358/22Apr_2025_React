@@ -1,26 +1,66 @@
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../features/users/loginSlice";
+import { useReg } from "../features/users/userSlice"
+import { useNavigate } from "react-router-dom";
+
 
 export const Login = () => {
 
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  const username = useRef()
+  const data1 = useSelector((state) => state.login.token)
+
+
+
+
+  const uname = useRef()
+  const email = useRef()
   const password = useRef()
+
+  const email1 = useRef()
+  const password1 = useRef()
 
   const loginHandler = (e) => {
     e.preventDefault()
 
     const data = {
-      username: username.current.value,
-      password: password.current.value
+      email: email1.current.value,
+      password: password1.current.value
     }
 
     dispatch(userLogin(data))
+  }
+
+  const regHandler = (e) => {
+    e.preventDefault()
+
+    const data = {
+      name: uname.current.value,
+      email: email.current.value,
+      password: password.current.value,
+      role: 'user'
+    }
+
+    dispatch(useReg(data))
 
   }
 
+  if (data1 != null) {
+    if (data1.error) {
+      alert(data1.error)
+    }
+    else {
+
+
+
+      localStorage.setItem("authtoken", JSON.stringify(data1.authtoken))
+      navigate("/")
+
+
+    }
+  }
 
 
 
@@ -52,13 +92,13 @@ export const Login = () => {
                   type="text"
                   placeholder="Your username"
                   class="form__input"
-                  ref={username}
+                  ref={email1}
                 />
                 <input
                   type="password"
                   placeholder="Your Password"
                   class="form__input"
-                  ref={password}
+                  ref={password1}
                 />
                 <div class="form__btn">
                   <button class="btn" type="submit">Login</button>
@@ -67,17 +107,19 @@ export const Login = () => {
             </div>
             <div class="register">
               <h3 class="section__title">Create an Account</h3>
-              <form class="form grid">
-                <input type="text" placeholder="Username" class="form__input" />
+              <form class="form grid" onSubmit={regHandler}>
+                <input type="text" placeholder="Username" ref={uname} class="form__input" />
                 <input
                   type="email"
                   placeholder="Your Email"
                   class="form__input"
+                  ref={email}
                 />
                 <input
                   type="password"
                   placeholder="Your Password"
                   class="form__input"
+                  ref={password}
                 />
                 <input
                   type="password"

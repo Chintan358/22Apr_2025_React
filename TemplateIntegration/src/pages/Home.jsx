@@ -6,18 +6,30 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { displayProduct } from "../features/products/productSlice";
+import { displayCategory } from "../features/products/categorySlice";
 
 
 export const Home = () => {
 
-  const products = useSelector((state) => state.product.data)
- 
+  let p = useSelector((state) => state.product.data)
+
+  const [products, setproducts] = useState([])
+  const categories = useSelector((state) => state.category.data)
   const dispatch = useDispatch()
+
+  const categorySelector = (cid) => {
+    setproducts(p.filter(ele => ele.category._id == cid))
+  }
+
+  useEffect(() => {
+    setproducts(p)
+  }, [p])
 
   useEffect(() => {
     dispatch(displayProduct())
+    dispatch(displayCategory())
   }, [])
 
   return (
@@ -45,51 +57,15 @@ export const Home = () => {
           </div>
         </section>
 
-        <section className="categories container section">
-          <h3 className="section__title">
-            <span>Popular</span> Categories
-          </h3>
-          <Swiper
-            modules={[Navigation]}
-            spaceBetween={20}
-            slidesPerView={4}
-            loop={true}
-            navigation
-            className="categories__container"
-          >
-            {[
-              { img: "category-1.jpg", title: "T-Shirt" },
-              { img: "category-2.jpg", title: "Bags" },
-              { img: "category-3.jpg", title: "Sandal" },
-              { img: "category-4.jpg", title: "Scarf Cap" },
-              { img: "category-5.jpg", title: "Shoes" },
-              { img: "category-6.jpg", title: "Pillowcase" },
-              { img: "category-7.jpg", title: "Jumpsuit" },
-              { img: "category-8.jpg", title: "Hats" },
-            ].map((cat, index) => (
-              <SwiperSlide key={index}>
-                <img
-                  src={`./src/assets/img/${cat.img}`}
-                  alt={cat.title}
-                  className="category__img"
-                />
-                <h3 className="category__title ">{cat.title}</h3>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </section>
+
 
         <section className="products container section">
           <div className="tab__btns">
-            <span className="tab__btn active-tab" data-target="#featured">
-              Featured
-            </span>
-            <span className="tab__btn" data-target="#popular">
-              Popular
-            </span>
-            <span className="tab__btn" data-target="#new-added">
-              New Added
-            </span>
+            {categories.map(ele => <span className="tab__btn active-tab" onClick={() => categorySelector(ele._id)} >
+              {ele.name}
+            </span>)
+            }
+
           </div>
 
           <div className="tab__items">
@@ -100,18 +76,18 @@ export const Home = () => {
                     <div className="product__banner">
                       <Link
                         to="/details"
-                        state={ele.id}
+                        state={ele._id}
                         className="product__images"
                       >
                         <img
-                          src={ele.image}
+                          src={ele.image_url}
                           alt=""
                           className="product__img default"
                           width={150}
                           height={150}
                         />
                         <img
-                          src={ele.image}
+                          src={ele.image_url}
                           alt=""
                           className="product__img hover"
                         />
@@ -142,17 +118,11 @@ export const Home = () => {
                       <div className="product__badge light-pink">Hot</div>
                     </div>
                     <div className="product__content">
-                      <span className="product__category">{ele.category}</span>
-                      <Link to="/details" state={ele.id}>
-                        <h3 className="product__title">{ele.title}</h3>
+                      <span className="product__category">{ele.category.name}</span>
+                      <Link to="/details" state={ele._id}>
+                        <h3 className="product__title">{ele.name}</h3>
                       </Link>
-                      <div className="product__rating">
-                        {Array.from({
-                          length: Math.round(ele.rating.rate),
-                        }).map((ele) => (
-                          <i className="fi fi-rs-star"></i>
-                        ))}
-                      </div>
+
                       <div className="product__price flex">
                         <span className="new__price">${ele.price}</span>
                         <span className="old__price">

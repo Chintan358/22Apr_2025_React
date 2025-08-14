@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export const displayProduct = createAsyncThunk("displayProduct", async () => {
 
-    const resp = fetch("https://fakestoreapi.com/products")
+    const resp = fetch("https://two2apr-2025-react.onrender.com/products")
     return (await resp).json()
 
 })

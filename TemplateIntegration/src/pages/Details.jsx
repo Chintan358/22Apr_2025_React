@@ -10,7 +10,7 @@ export const Details = () => {
 
   const products = useSelector((state) => state.product.data)
 
-  const product = products.find((ele) => ele.id == id);
+  const product = products.find((ele) => ele._id == id);
 
   return (
     <>
@@ -41,17 +41,17 @@ export const Details = () => {
           <section class="details section--lg">
             <div class="details__container container grid">
               <div class="details__group">
-                <img src={product.image} alt="" class="details__img" />
+                <img src={product.image_url} alt="" class="details__img" />
                 <div class="details__small-images grid">
-                  <img src={product.image} alt="" class="details__small-img" />
-                  <img src={product.image} alt="" class="details__small-img" />
-                  <img src={product.image} alt="" class="details__small-img" />
+                  <img src={product.image_url} alt="" class="details__small-img" />
+                  <img src={product.image_url} alt="" class="details__small-img" />
+                  <img src={product.image_url} alt="" class="details__small-img" />
                 </div>
               </div>
               <div class="details__group">
-                <h3 class="details__title">{product.title}</h3>
+                <h3 class="details__title">{product.name}</h3>
                 <p class="details__brand">
-                  Category: <span>{product.category}</span>
+                  Category: <span>{product.category.name}</span>
                 </p>
                 <div class="details__price flex">
                   <span class="new__price">${product.price}</span>
