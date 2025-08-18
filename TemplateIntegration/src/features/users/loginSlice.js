@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-export const userLogin = createAsyncThunk('userLogin', async (data) => {
+export const userLogin = createAsyncThunk('userLogin', async (data, { rejectWithValue }) => {
+
 
     const response = await fetch("https://two2apr-2025-react.onrender.com/users/login",
         {
@@ -10,12 +11,12 @@ export const userLogin = createAsyncThunk('userLogin', async (data) => {
 
             },
             body: JSON.stringify(data)
-
         })
 
 
 
     return await response.json()
+
 })
 
 
@@ -31,6 +32,12 @@ export const loginSlice = createSlice({
         // statusCode: null
 
     },
+    reducers: {
+        logout: (state) => {
+            state.token = null,
+                state.isAuthenticated = false
+        }
+    },
     extraReducers: (builder) => {
 
         builder.addCase(userLogin.pending, (state) => {
@@ -40,7 +47,7 @@ export const loginSlice = createSlice({
         builder.addCase(userLogin.fulfilled, (state, action) => {
             state.isLoading = false
             state.token = action.payload
-            console.log(action.payload);
+
 
             if (action.payload.error) {
                 state.isAuthenticated = false
@@ -55,7 +62,7 @@ export const loginSlice = createSlice({
 
         builder.addCase(userLogin.rejected, (state, action) => {
             state.isError = true
-            state.error = "something went Wrong !!!"
+            state.error = "something went Wrong----dfdfd     !!!"
             state.isAuthenticated = false
 
         })
@@ -64,7 +71,5 @@ export const loginSlice = createSlice({
 })
 
 
-
-
-
+export const { logout } = loginSlice.actions
 export default loginSlice.reducer

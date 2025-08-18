@@ -63,7 +63,7 @@ export const Login = () => {
   //   }
   // }
 
-  console.log(data1.status);
+
 
 
   if (data1.isAuthenticated) {

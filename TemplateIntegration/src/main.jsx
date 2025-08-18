@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider, useNavigate } from "react-router-dom";
 import { Home } from "./pages/Home.jsx";
 import { Shop } from "./pages/Shop.jsx";
 import { Accounts } from "./pages/Accounts.jsx";
@@ -10,7 +10,22 @@ import { Wishlist } from "./pages/Wishlist.jsx";
 import { Cart } from "./pages/Cart.jsx";
 import { Details } from "./pages/Details.jsx";
 import { store } from './app/store'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
+
+
+const AuthProvider = ({ children }) => {
+  const { isAuthenticated } = useSelector((state) => state.login);
+
+  if (!isAuthenticated) {
+    // 🚪 If not logged in, redirect to login page
+    alert("Please login first !!!")
+    return <Navigate to="/login" replace />;
+  }
+
+  // ✅ If logged in, render children
+  return children;
+};
+
 
 const router = createBrowserRouter([
   {
@@ -27,7 +42,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/accounts",
-        element: <Accounts />,
+        element: (
+          <AuthProvider>
+            <Accounts />
+          </AuthProvider>
+        ),
       },
       {
         path: "/compare",
@@ -39,11 +58,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/wishlist",
-        element: <Wishlist />,
+        element: (
+          <AuthProvider>
+            <Wishlist />
+          </AuthProvider>
+        ),
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element: (
+          <AuthProvider>
+            <Cart />
+          </AuthProvider>
+        ),
       },
       {
         path: "/details",

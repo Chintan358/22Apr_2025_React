@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../features/users/loginSlice";
 
 export const Header = () => {
 
+  const { isAuthenticated } = useSelector((state) => state.login)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
+  const logoutHandler = () => {
 
+    dispatch(logout())
+    navigate("/")
 
+  }
 
   return (
     <>
@@ -48,11 +57,16 @@ export const Header = () => {
                   Compare
                 </Link>
               </li>
-              <li className="nav__item">
+              {isAuthenticated ? <li className="nav__item">
+                <Link onClick={logoutHandler} className="nav__link">
+                  Logout
+                </Link>
+              </li> : <li className="nav__item">
                 <Link to={"/login"} className="nav__link">
                   Login
                 </Link>
-              </li>
+              </li>}
+
             </ul>
             <div className="header__search">
               <input
