@@ -24,7 +24,12 @@ export const loginSlice = createSlice({
     initialState: {
         isLoading: false,
         token: null,
-        isError: false
+        isError: false,
+        isAuthenticated: false,
+        success: null,
+        error: null,
+        // statusCode: null
+
     },
     extraReducers: (builder) => {
 
@@ -33,17 +38,25 @@ export const loginSlice = createSlice({
         })
 
         builder.addCase(userLogin.fulfilled, (state, action) => {
-
-
             state.isLoading = false
             state.token = action.payload
+            console.log(action.payload);
 
+            if (action.payload.error) {
+                state.isAuthenticated = false
+                state.error = "something went Wrong !!!"
+            }
+            else {
+                state.isAuthenticated = true
+            }
+            state.success = "Login success"
 
         })
 
         builder.addCase(userLogin.rejected, (state, action) => {
             state.isError = true
-
+            state.error = "something went Wrong !!!"
+            state.isAuthenticated = false
 
         })
 

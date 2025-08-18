@@ -10,7 +10,8 @@ export const Login = () => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  const data1 = useSelector((state) => state.login.token)
+  const data1 = useSelector((state) => state.login)
+
 
 
 
@@ -47,20 +48,28 @@ export const Login = () => {
 
   }
 
-  if (data1 != null) {
-    if (data1.error) {
-      alert(data1.error)
-    }
-    else {
+  // if (data1 != null) {
+  //   if (data1.error) {
+  //     alert(data1.error)
+  //   }
+  //   else {
 
 
 
-      localStorage.setItem("authtoken", JSON.stringify(data1.authtoken))
-      navigate("/")
+  //     localStorage.setItem("authtoken", JSON.stringify(data1.authtoken))
+  //     navigate("/")
 
 
-    }
+  //   }
+  // }
+
+  console.log(data1.status);
+
+
+  if (data1.isAuthenticated) {
+    navigate("/")
   }
+
 
 
 
@@ -85,8 +94,12 @@ export const Login = () => {
 
         <section class="login-register section--lg">
           <div class="login-register__container container grid">
+
             <div class="login">
+
               <h3 class="section__title">Login</h3>
+              <span>  {data1.error}</span>
+              <br />
               <form class="form grid" onSubmit={loginHandler}>
                 <input
                   type="text"

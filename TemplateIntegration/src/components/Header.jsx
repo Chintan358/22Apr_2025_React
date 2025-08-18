@@ -4,14 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 export const Header = () => {
 
 
-  const [isAuthnticated, setAuthenticated] = useState(false)
 
-  useEffect(() => {
-    const authtoken = localStorage.getItem("authtoken")
-    if (authtoken) {
-      setAuthenticated(true)
-    }
-  }, [])
 
 
   return (
@@ -55,15 +48,11 @@ export const Header = () => {
                   Compare
                 </Link>
               </li>
-              {isAuthnticated ? <li className="nav__item">
-                <Link to={"/logout"} className="nav__link">
-                  Logout
-                </Link>
-              </li> : <li className="nav__item">
+              <li className="nav__item">
                 <Link to={"/login"} className="nav__link">
                   Login
                 </Link>
-              </li>}
+              </li>
             </ul>
             <div className="header__search">
               <input
