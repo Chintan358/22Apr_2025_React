@@ -46,7 +46,7 @@ export const loginSlice = createSlice({
 
         builder.addCase(userLogin.fulfilled, (state, action) => {
             state.isLoading = false
-            state.token = action.payload
+            state.token = action.payload.authtoken
 
 
             if (action.payload.error) {

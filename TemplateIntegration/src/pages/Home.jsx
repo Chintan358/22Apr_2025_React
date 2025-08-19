@@ -4,20 +4,22 @@ import { Navigation } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { displayProduct } from "../features/products/productSlice";
 import { displayCategory } from "../features/products/categorySlice";
+import { addtoCart, viewCart } from "../features/products/cartSlice";
 
 
 export const Home = () => {
 
   let p = useSelector((state) => state.product.data)
-
+  const { isAuthenticated, token } = useSelector((state) => state.login)
   const [products, setproducts] = useState([])
   const categories = useSelector((state) => state.category.data)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const categorySelector = (cid) => {
     setproducts(p.filter(ele => ele.category._id == cid))
@@ -31,6 +33,22 @@ export const Home = () => {
     dispatch(displayProduct())
     dispatch(displayCategory())
   }, [])
+
+
+  const carthandler = (pid) => {
+
+    if (isAuthenticated) {
+      const data = {
+        pid, token
+      }
+      dispatch(addtoCart(data))
+
+    }
+    else {
+      navigate("/login")
+    }
+
+  }
 
   return (
     <>
@@ -130,11 +148,11 @@ export const Home = () => {
                         </span>
                       </div>
                       <a
-                        href="#"
+                        onClick={() => carthandler(ele._id)}
                         className="action__btn cart__btn"
                         aria-label="Add To Cart"
                       >
-                        <i className="fi fi-rs-shopping-bag-add"></i>
+                        <i className="fi fi-rs-shopping-bag-add" ></i>
                       </a>
                     </div>
                   </div>

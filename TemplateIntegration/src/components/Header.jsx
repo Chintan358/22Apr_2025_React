@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../features/users/loginSlice";
+import { viewCart } from "../features/products/cartSlice";
 
-export const Header = () => {
+export const Header = ({data}) => {
 
-  const { isAuthenticated } = useSelector((state) => state.login)
+  const { isAuthenticated, token } = useSelector((state) => state.login)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const cartdata = useSelector((state) => state.cart.data)
+
+  useEffect(() => {
+
+  }, [cartdata])
+
 
   const logoutHandler = () => {
 
@@ -90,7 +97,7 @@ export const Header = () => {
             </Link>
             <Link to={"/cart"} className="header__action-btn" title="Cart">
               <img src="./src/assets/img/icon-cart.svg" alt="" />
-              <span className="count">3</span>
+              <span className="count">{data}</span>
             </Link>
             <div className="header__action-btn nav__toggle" id="nav-toggle">
               <img src="./src/assets//img/menu-burger.svg" alt="" />

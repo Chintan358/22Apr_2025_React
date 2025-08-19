@@ -1,4 +1,28 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { removeCart, viewCart } from "../features/products/cartSlice";
+
 export const Cart = () => {
+
+  const dispatch = useDispatch()
+  const { token } = useSelector((state) => state.login)
+  const cartdata = useSelector((state) => state.cart.data)
+  useEffect(() => {
+    const data = {
+      token
+    }
+    dispatch(viewCart(data))
+  }, [cartdata])
+
+  const removecarthandler = (cid) => {
+    const data = {
+      cid, token
+    }
+    dispatch(removeCart(data))
+  }
+
+
+
   return (
     <>
       <main class="main">
@@ -38,91 +62,35 @@ export const Cart = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                {cartdata.map(ele => <tr>
                   <td>
                     <img
-                      src="./assets//img/product-1-2.jpg"
+                      src={ele.product.image_url}
                       alt=""
                       class="table__img"
                     />
                   </td>
                   <td>
                     <h3 class="table__title">
-                      J.Crew Mercantile Women's Short-Sleeve
+                      {ele.product.name}
                     </h3>
-                    <p class="table__description">
-                      Lorem ipsum dolor sit amet consectetur.
-                    </p>
+
                   </td>
                   <td>
-                    <span class="table__price">$110</span>
+                    <span class="table__price">${ele.product.price}</span>
                   </td>
                   <td>
-                    <input type="number" value="3" class="quantity" />
+                    <input type="number" value={ele.quantity} class="quantity" />
                   </td>
                   <td>
-                    <span class="subtotal">$220</span>
+                    <span class="subtotal">${ele.product.price * ele.quantity}</span>
                   </td>
                   <td>
-                    <i class="fi fi-rs-trash table__trash"></i>
+                    <i class="fi fi-rs-trash table__trash" onClick={() => removecarthandler(ele._id)}></i>
                   </td>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      src="./assets//img/product-7-1.jpg"
-                      alt=""
-                      class="table__img"
-                    />
-                  </td>
-                  <td>
-                    <h3 class="table__title">Amazon Essentials Women's Tank</h3>
-                    <p class="table__description">
-                      Lorem ipsum dolor sit amet consectetur.
-                    </p>
-                  </td>
-                  <td>
-                    <span class="table__price">$110</span>
-                  </td>
-                  <td>
-                    <input type="number" value="3" class="quantity" />
-                  </td>
-                  <td>
-                    <span class="subtotal">$220</span>
-                  </td>
-                  <td>
-                    <i class="fi fi-rs-trash table__trash"></i>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      src="./assets//img/product-2-1.jpg"
-                      alt=""
-                      class="table__img"
-                    />
-                  </td>
-                  <td>
-                    <h3 class="table__title">
-                      Amazon Brand - Daily Ritual Women's Jersey
-                    </h3>
-                    <p class="table__description">
-                      Lorem ipsum dolor sit amet consectetur.
-                    </p>
-                  </td>
-                  <td>
-                    <span class="table__price">$110</span>
-                  </td>
-                  <td>
-                    <input type="number" value="3" class="quantity" />
-                  </td>
-                  <td>
-                    <span class="subtotal">$220</span>
-                  </td>
-                  <td>
-                    <i class="fi fi-rs-trash table__trash"></i>
-                  </td>
-                </tr>
+                </tr>)}
+
+
               </tbody>
             </table>
           </div>
