@@ -57,6 +57,32 @@ router.delete("/:id", auth, async (req, resp) => {
     }
 })
 
+router.put("/:id", auth, async (req, resp) => {
+
+    const cartid = req.params.id
+    const qty = req.query.qty
+
+    try {
+
+        const cartdata = await Cart.findOne({ _id: cartid, user: req.user._id })
+        cartdata.quantity = cartdata.quantity + Number(qty)
+
+        if (cartdata.quantity <= 0) {
+            const data = await Cart.findByIdAndDelete(cartid)
+            resp.status(200).send("deleted")
+        }
+        else {
+            const updatedCart = await Cart.findByIdAndUpdate(cartid, cartdata)
+            resp.status(201).send("Cart updated")
+        }
+
+
+    } catch (error) {
+        console.log(error);
+
+    }
+
+})
 
 
 
