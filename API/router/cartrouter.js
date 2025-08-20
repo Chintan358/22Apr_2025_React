@@ -65,7 +65,7 @@ router.put("/:id", auth, async (req, resp) => {
     try {
 
         const cartdata = await Cart.findOne({ _id: cartid, user: req.user._id })
-        cartdata.quantity = Number(qty)
+        cartdata.quantity = cartdata.quantity + Number(qty)
 
         if (cartdata.quantity <= 0) {
             const data = await Cart.findByIdAndDelete(cartid)
