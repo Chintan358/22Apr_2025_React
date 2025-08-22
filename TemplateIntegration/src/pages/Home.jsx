@@ -37,7 +37,7 @@ export const Home = () => {
 
   const carthandler = (pid) => {
 
-    if (isAuthenticated) {
+    if (localStorage.getItem("authtoken")) {
       const data = {
         pid, token
       }

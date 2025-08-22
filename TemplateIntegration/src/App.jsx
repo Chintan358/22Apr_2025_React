@@ -9,22 +9,28 @@ import { viewCart } from "./features/products/cartSlice";
 const App = () => {
 
 
-  const data = useSelector((state) => state.cart.data)
-  const { token } = useSelector((state) => state.login)
+  // const data = useSelector((state) => state.cart.data)
+  const { token, isAuthenticated } = useSelector((state) => state.login)
+
+
+
   const dispatch = useDispatch()
   useEffect(() => {
 
+    if (isAuthenticated) {
+      dispatch(viewCart({ token }))
 
-    dispatch(viewCart({ token }))
+    }
 
-  }, [data])
+
+  }, [isAuthenticated, token])
 
 
 
   return (
     <>
 
-      <Header data={data.length} />
+      <Header />
       <Outlet></Outlet>
       <Footer />
 

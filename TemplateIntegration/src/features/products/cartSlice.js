@@ -25,6 +25,21 @@ export const viewCart = createAsyncThunk("viewCart", async (data) => {
     return await response.json()
 })
 
+export const updateCart = createAsyncThunk("updateCart", async (data) => {
+
+
+    const response = await fetch(`https://two2apr-2025-react.onrender.com/carts/${data.cid}?qty=${data.qty}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "authtoken": data.token
+        }
+    })
+
+    return await response.json()
+
+})
+
 export const removeCart = createAsyncThunk("removeCart", async (data) => {
 
     const response = await fetch(`https://two2apr-2025-react.onrender.com/carts/${data.cid}`, {
@@ -65,12 +80,13 @@ export const cartSlice = createSlice({
         })
         builder.addCase(viewCart.fulfilled, (state, action) => {
             state.isLoading = false
-            console.log(action.payload);
+
 
             state.data = action.payload
         })
         builder.addCase(viewCart.rejected, (state) => {
             state.isError = true
+            state.data = []
         })
 
 
@@ -81,6 +97,18 @@ export const cartSlice = createSlice({
             state.isLoading = false
         })
         builder.addCase(removeCart.rejected, (state) => {
+            state.isError = true
+        })
+
+
+
+        builder.addCase(updateCart.pending, (state) => {
+            state.isLoading = true
+        })
+        builder.addCase(updateCart.fulfilled, (state, action) => {
+            state.isLoading = false
+        })
+        builder.addCase(updateCart.rejected, (state) => {
             state.isError = true
         })
 

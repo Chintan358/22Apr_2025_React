@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeCart, viewCart } from "../features/products/cartSlice";
+import { removeCart, updateCart, viewCart } from "../features/products/cartSlice";
 
 export const Cart = () => {
 
   const dispatch = useDispatch()
   const { token } = useSelector((state) => state.login)
   const cartdata = useSelector((state) => state.cart.data)
+
   useEffect(() => {
     const data = {
       token
@@ -20,6 +21,20 @@ export const Cart = () => {
     }
     dispatch(removeCart(data))
   }
+
+  const [qty, setqty] = useState()
+  const qtyChangeHandler = (qty, cid) => {
+
+    const data = {
+      token, cid, qty
+    }
+    dispatch(updateCart(data))
+
+  }
+
+  const subtotal = cartdata.reduce((acc, ele) => acc + (ele.product.price * ele.quantity), 0)
+
+
 
 
 
@@ -62,33 +77,39 @@ export const Cart = () => {
                 </tr>
               </thead>
               <tbody>
-                {cartdata.map(ele => <tr>
-                  <td>
-                    <img
-                      src={ele.product.image_url}
-                      alt=""
-                      class="table__img"
-                    />
-                  </td>
-                  <td>
-                    <h3 class="table__title">
-                      {ele.product.name}
-                    </h3>
 
-                  </td>
-                  <td>
-                    <span class="table__price">${ele.product.price}</span>
-                  </td>
-                  <td>
-                    <input type="number" value={ele.quantity} class="quantity" />
-                  </td>
-                  <td>
-                    <span class="subtotal">${ele.product.price * ele.quantity}</span>
-                  </td>
-                  <td>
-                    <i class="fi fi-rs-trash table__trash" onClick={() => removecarthandler(ele._id)}></i>
-                  </td>
-                </tr>)}
+                {cartdata.map(ele =>
+
+                  < tr >
+
+                    <td>
+                      <img
+                        src={ele.product.image_url}
+                        alt=""
+                        class="table__img"
+                      />
+                    </td>
+                    <td>
+                      <h3 class="table__title">
+                        {ele.product.name}
+                      </h3>
+
+                    </td>
+                    <td>
+                      <span class="table__price">${ele.product.price}</span>
+                    </td>
+                    <td>
+                      <button onClick={(e) => qtyChangeHandler(1, ele._id)}> + </button>
+                      <input type="text" value={ele.quantity} class="quantity" />
+                      <button onClick={(e) => qtyChangeHandler(-1, ele._id)}> - </button>
+                    </td>
+                    <td>
+                      <span class="subtotal">${ele.product.price * ele.quantity}</span>
+                    </td>
+                    <td>
+                      <i class="fi fi-rs-trash table__trash" onClick={() => removecarthandler(ele._id)}></i>
+                    </td>
+                  </tr>)}
 
 
               </tbody>
@@ -160,23 +181,16 @@ export const Cart = () => {
                     <span class="cart__total-title">Cart Subtotal</span>
                   </td>
                   <td>
-                    <span class="cart__total-price">$240.00</span>
+                    <span class="cart__total-price">${subtotal}</span>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <span class="cart__total-title">Shipping</span>
-                  </td>
-                  <td>
-                    <span class="cart__total-price">$10.00</span>
-                  </td>
-                </tr>
+
                 <tr>
                   <td>
                     <span class="cart__total-title">Total</span>
                   </td>
                   <td>
-                    <span class="cart__total-price">$250.00</span>
+                    <span class="cart__total-price">${subtotal}</span>
                   </td>
                 </tr>
               </table>
@@ -212,7 +226,7 @@ export const Cart = () => {
             </form>
           </div>
         </section>
-      </main>
+      </main >
     </>
   );
 };
