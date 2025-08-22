@@ -4,6 +4,7 @@ import loginreducer from '../features/users/loginSlice'
 import userreducer from '../features/users/userSlice'
 import categoryreducer from '../features/products/categorySlice'
 import cartreducer from '../features/products/cartSlice'
+import paymentreducer from '../features/users/paymentSlice'
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         login: loginreducer,
         user: userreducer,
         category: categoryreducer,
-        cart: cartreducer
+        cart: cartreducer,
+        payment: paymentreducer
     },
 })

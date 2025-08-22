@@ -14,14 +14,14 @@ export const Header = ({ data }) => {
 
 
   // useEffect(() => {
-
+  //   dispatch(viewCart({ token }))
   // }, [cartdata])
 
 
   const logoutHandler = () => {
 
     dispatch(logout())
-    dispatch(viewCart(token))
+    dispatch(viewCart({ token }))
     navigate("/")
 
   }

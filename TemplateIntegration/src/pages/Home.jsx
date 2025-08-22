@@ -35,13 +35,14 @@ export const Home = () => {
   }, [])
 
 
-  const carthandler = (pid) => {
+  const carthandler = async (pid) => {
 
     if (localStorage.getItem("authtoken")) {
       const data = {
         pid, token
       }
-      dispatch(addtoCart(data))
+      await dispatch(addtoCart(data))
+      dispatch(viewCart({ token }))
 
     }
     else {

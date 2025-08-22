@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart, updateCart, viewCart } from "../features/products/cartSlice";
+import { payment } from "../features/users/paymentSlice";
 
 export const Cart = () => {
 
@@ -8,31 +9,89 @@ export const Cart = () => {
   const { token } = useSelector((state) => state.login)
   const cartdata = useSelector((state) => state.cart.data)
 
-  useEffect(() => {
-    const data = {
-      token
-    }
-    dispatch(viewCart(data))
-  }, [cartdata])
 
-  const removecarthandler = (cid) => {
+  const removecarthandler = async (cid) => {
     const data = {
       cid, token
     }
-    dispatch(removeCart(data))
+    await dispatch(removeCart(data))
+
+
+    dispatch(viewCart({ token }))
   }
 
   const [qty, setqty] = useState()
-  const qtyChangeHandler = (qty, cid) => {
+  const qtyChangeHandler = async (qty, cid) => {
 
     const data = {
       token, cid, qty
     }
-    dispatch(updateCart(data))
+    await dispatch(updateCart(data))
+
+    dispatch(viewCart({ token }))
 
   }
 
+  // useEffect(() => {
+  //   const data = {
+  //     token
+  //   }
+  //   dispatch(viewCart(data))
+  // }, [])
+
+
   const subtotal = cartdata.reduce((acc, ele) => acc + (ele.product.price * ele.quantity), 0)
+
+
+
+  const paymentHandler = async () => {
+
+    const resp = await dispatch(payment(subtotal)).unwrap()
+    if (resp) {
+      var options = {
+        "key": "rzp_test_R8LF6p6eS7swQn", // Enter the Key ID generated from the Dashboard
+        "amount": resp.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Acme Corp",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": resp.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
+          alert(response.razorpay_payment_id);
+          alert(response.razorpay_order_id);
+          alert(response.razorpay_signature)
+        },
+        "prefill": {
+          "name": "Gaurav Kumar",
+          "email": "gaurav.kumar@example.com",
+          "contact": "9000090000"
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#3399cc"
+        }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.on('payment.failed', function (response) {
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+      });
+      rzp1.open();
+    }
+
+
+  }
+
+
+
+
 
 
 
@@ -194,7 +253,7 @@ export const Cart = () => {
                   </td>
                 </tr>
               </table>
-              <a href="checkout.html" class="btn flex btn--md">
+              <a class="btn flex btn--md" onClick={paymentHandler}>
                 <i class="fi fi-rs-box-alt"></i> Proceed To Checkout
               </a>
             </div>
