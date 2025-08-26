@@ -17,7 +17,7 @@ router.post("/create", auth, async (req, resp) => {
             total += ele.product.price * ele.quantity
         })
         const ord = new Order({ user: user._id, payment_id: data.payid, total_amount: total })
-        const savedOrder = ord.save()
+        const savedOrder = await ord.save()
 
         carts.map(async (ele) => {
             const oi = new OrderItems({ order: savedOrder._id, product: ele.product._id, quantity: ele.quantity, price_at_time: ele.product.price })
