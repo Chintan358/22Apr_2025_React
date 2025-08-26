@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart, updateCart, viewCart } from "../features/products/cartSlice";
 import { payment } from "../features/users/paymentSlice";
+import { createOrder } from "../features/products/orderSlice";
 
 export const Cart = () => {
 
@@ -56,10 +57,12 @@ export const Cart = () => {
         "description": "Test Transaction",
         "image": "https://example.com/your_logo",
         "order_id": resp.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        "handler": function (response) {
-          alert(response.razorpay_payment_id);
-          alert(response.razorpay_order_id);
-          alert(response.razorpay_signature)
+        "handler": async function (response) {
+          // alert(response.razorpay_payment_id);
+          // alert(response.razorpay_order_id);
+          // alert(response.razorpay_signature)
+          await dispatch(createOrder({ "token": token, payid: response.razorpay_payment_id }))
+
         },
         "prefill": {
           "name": "Gaurav Kumar",
