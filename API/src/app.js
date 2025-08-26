@@ -23,6 +23,7 @@ app.use("/categories", require("../router/categoryrouter"))
 app.use("/products", require("../router/productrouter"))
 app.use("/carts", require("../router/cartrouter"))
 app.use("/payment", require("../router/paymentrouter"))
+app.use("/orders",require("../router/orderrouter"))
 
 
 
