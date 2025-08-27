@@ -36,5 +36,41 @@ router.post("/create", auth, async (req, resp) => {
 })
 
 
+router.get("/", auth, async (req, resp) => {
+
+    try {
+        const user = req.user
+        // const order = await Order.find({ user: user._id })
+        const order = await Order.aggregate([{ $match: { user: user._id } }, {
+            $lookup: {
+                from: 'orderitems',
+                localField: '_id',
+                foreignField: 'order',
+                as: 'order_items',
+                pipeline: [
+                // Nested lookup: fetch product details for each order item
+                {
+                $lookup: {
+                    from: "products", // actual collection name
+                    localField: "product",
+                    foreignField: "_id",
+                    as: "product_details"
+                }
+                },
+                {
+                $unwind: "$product_details" // flatten single product object
+                }
+            ]
+            }
+        },])
+
+        resp.send(order)
+
+    } catch (error) {
+
+    }
+})
+
+
 
 module.exports = router
