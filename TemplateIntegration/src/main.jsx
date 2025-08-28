@@ -11,20 +11,52 @@ import { Cart } from "./pages/Cart.jsx";
 import { Details } from "./pages/Details.jsx";
 import { store } from './app/store'
 import { Provider, useSelector } from 'react-redux'
+import AdminLogin from "./adminpages/AdminLogin.jsx";
+import { Dashboard } from "./adminpages/Dashboard.jsx";
 
 
 const AuthProvider = ({ children }) => {
-  const { isAuthenticated } = useSelector((state) => state.login);
+  const { isAuthenticated, role } = useSelector((state) => state.login);
 
   if (!isAuthenticated) {
     // 🚪 If not logged in, redirect to login page
     alert("Please login first !!!")
     return <Navigate to="/login" replace />;
   }
+  else if (isAuthenticated && role === 'user') {
+    return children;
+  }
+  else {
+    alert("Please login first !!!")
+    return <Navigate to="/login" replace />
+  }
 
   // ✅ If logged in, render children
-  return children;
+
 };
+
+const AdminAuthProvider = ({ children }) => {
+  const { isAuthenticated, role } = useSelector((state) => state.login);
+
+  if (!isAuthenticated) {
+    // 🚪 If not logged in, redirect to login page
+    alert("Please login first !!!")
+    return <Navigate to="/admin" replace />;
+  }
+  else if (isAuthenticated && role === 'admin') {
+    return children;
+  }
+  else {
+    alert("Please login first !!!")
+    return <Navigate to="/admin" replace />
+  }
+
+  // ✅ If logged in, render children
+
+};
+
+
+
 
 
 const router = createBrowserRouter([
@@ -76,8 +108,20 @@ const router = createBrowserRouter([
         path: "/details",
         element: <Details />,
       },
+
     ],
+
   },
+  {
+    path: "/admin",
+    element: <AdminLogin />
+  },
+  {
+    path: "/dashboard",
+    element: (<AdminAuthProvider>
+      <Dashboard />
+    </AdminAuthProvider>)
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(

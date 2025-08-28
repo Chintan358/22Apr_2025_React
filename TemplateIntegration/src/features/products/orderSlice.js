@@ -20,6 +20,19 @@ export const createOrder = createAsyncThunk("createOrder", async (data) => {
 
 })
 
+export const viewOrder = createAsyncThunk('viewOrder', async (data) => {
+    const response = await fetch(`https://two2apr-2025-react.onrender.com/orders`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "authtoken": data.token
+        },
+    })
+
+    return await response.json()
+
+})
+
 
 
 
@@ -33,7 +46,19 @@ export const orderSlice = createSlice({
     },
     extraReducers: (builder) => {
 
+        builder.addCase(viewOrder.pending, (state) => {
+            state.isLoading = true
+        })
 
+        builder.addCase(viewOrder.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.data = action.payload
+        })
+
+        builder.addCase(viewOrder.rejected, (state) => {
+
+            state.isError = true
+        })
 
 
     }

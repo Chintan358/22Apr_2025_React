@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeCart, updateCart, viewCart } from "../features/products/cartSlice";
 import { payment } from "../features/users/paymentSlice";
 import { createOrder } from "../features/products/orderSlice";
+import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
 
   const dispatch = useDispatch()
   const { token } = useSelector((state) => state.login)
   const cartdata = useSelector((state) => state.cart.data)
-
+  const navigate = useNavigate()
 
   const removecarthandler = async (cid) => {
     const data = {
@@ -62,6 +63,7 @@ export const Cart = () => {
           // alert(response.razorpay_order_id);
           // alert(response.razorpay_signature)
           await dispatch(createOrder({ "token": token, payid: response.razorpay_payment_id }))
+          navigate("/")
 
         },
         "prefill": {

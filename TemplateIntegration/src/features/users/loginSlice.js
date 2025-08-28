@@ -29,6 +29,7 @@ export const loginSlice = createSlice({
         isAuthenticated: !!token,
         success: null,
         error: null,
+        role: null
         // statusCode: null
 
     },
@@ -49,7 +50,7 @@ export const loginSlice = createSlice({
         builder.addCase(userLogin.fulfilled, (state, action) => {
             state.isLoading = false
             state.token = action.payload.authtoken
-
+            state.role = action.payload.role
 
             if (action.payload.error) {
                 state.isAuthenticated = false
