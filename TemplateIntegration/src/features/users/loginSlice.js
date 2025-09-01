@@ -20,6 +20,7 @@ export const userLogin = createAsyncThunk('userLogin', async (data, { rejectWith
 })
 
 const token = localStorage.getItem("token");
+const role = localStorage.getItem("role")
 export const loginSlice = createSlice({
     name: 'login',
     initialState: {
@@ -29,7 +30,7 @@ export const loginSlice = createSlice({
         isAuthenticated: !!token,
         success: null,
         error: null,
-        role: null
+        role: role ? role : null
         // statusCode: null
 
     },
@@ -59,6 +60,7 @@ export const loginSlice = createSlice({
             else {
                 state.isAuthenticated = true
                 localStorage.setItem("token", action.payload.authtoken)
+                localStorage.setItem("role", action.payload.role)
             }
             state.success = "Login success"
 

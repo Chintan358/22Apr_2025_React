@@ -8,6 +8,22 @@ export const displayCategory = createAsyncThunk("displayCategory", async () => {
 
 })
 
+export const addCategory = createAsyncThunk("addCategory", async (data) => {
+
+    const resp = fetch("https://two2apr-2025-react.onrender.com/categories",
+        {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "authtoken": data.token
+            },
+            body: JSON.stringify(data)
+        }
+    )
+    return (await resp).json()
+
+})
+
 
 
 export const categorySlice = createSlice({

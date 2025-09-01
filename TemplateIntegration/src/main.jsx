@@ -13,6 +13,8 @@ import { store } from './app/store'
 import { Provider, useSelector } from 'react-redux'
 import AdminLogin from "./adminpages/AdminLogin.jsx";
 import { Dashboard } from "./adminpages/Dashboard.jsx";
+import { AdminHome } from "./adminpages/AdminHome.jsx";
+import { Category } from "./adminpages/Category.jsx";
 
 
 const AuthProvider = ({ children }) => {
@@ -120,7 +122,20 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: (<AdminAuthProvider>
       <Dashboard />
-    </AdminAuthProvider>)
+    </AdminAuthProvider>),
+    children: [{
+      path: "/dashboard",
+      element: <AdminHome />
+    },
+    {
+      path: "/dashboard/category",
+      element: <Category />
+    },
+    
+
+
+
+    ]
   }
 ]);
 
