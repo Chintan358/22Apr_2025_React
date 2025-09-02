@@ -36,11 +36,27 @@ router.post("/create", auth, async (req, resp) => {
             }
         });
 
+        var str = `<table>
+                <tr>
+                <th>Order Id</th>
+                <th>${savedOrder._id}</th>
+                <th>payid</th>
+                <th>${data.payid}</th>
+                </tr>
+
+                <tr>
+                <th>Order Date</th>
+                <th>${data.created_at}</th>
+                <th>status</th>
+                <th>${savedOrder.status}</th>
+                </tr>
+        </table>`
+
         let mailOptions = {
             from: 'chintan.tops@gmail.com',
             to: user.email,
             subject: 'ORDER CONFIRMATION',
-            html: '<h1>That was easy!</h1>'
+            html: str
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
