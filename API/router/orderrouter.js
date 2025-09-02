@@ -20,22 +20,6 @@ router.post("/create", auth, async (req, resp) => {
         const ord = new Order({ user: user._id, payment_id: data.payid, total_amount: total })
         const savedOrder = await ord.save()
 
-        carts.map(async (ele) => {
-            const oi = new OrderItems({ order: savedOrder._id, product: ele.product._id, quantity: ele.quantity, price_at_time: ele.product.price })
-            await oi.save()
-
-            await Cart.findByIdAndDelete(ele._id)
-        })
-
-
-        let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'chintan.tops@gmail.com',
-                pass: 'qdvx hcds spls afuk'
-            }
-        });
-
         var str = `<table>
                 <tr>
                 <th>Order Id</th>
@@ -49,8 +33,33 @@ router.post("/create", auth, async (req, resp) => {
                 <th>${data.created_at}</th>
                 <th>status</th>
                 <th>${savedOrder.status}</th>
-                </tr>
-        </table>`
+                </tr>`
+
+        carts.map(async (ele) => {
+
+            str += `<tr><td>${ele.product.name}</td><td>${ele.product.price}</td>
+            <td>${ele.quantity}</td><td>${ele.quantity * ele.product.price}</td>
+            </tr>`
+            const oi = new OrderItems({ order: savedOrder._id, product: ele.product._id, quantity: ele.quantity, price_at_time: ele.product.price })
+            await oi.save()
+
+            await Cart.findByIdAndDelete(ele._id)
+        })
+
+        str += `<tr><td colspan='3'>Total </td><td>${total}</td></tr>`
+        str += `</table>`
+
+
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'chintan.tops@gmail.com',
+                pass: 'qdvx hcds spls afuk'
+            }
+        });
+
+
+
 
         let mailOptions = {
             from: 'chintan.tops@gmail.com',
