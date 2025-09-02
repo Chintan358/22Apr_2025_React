@@ -20,7 +20,7 @@ router.post("/create", auth, async (req, resp) => {
         const ord = new Order({ user: user._id, payment_id: data.payid, total_amount: total })
         const savedOrder = await ord.save()
 
-        var str = `<table>
+        var str = `<table border='1'>
                 <tr>
                 <th>Order Id</th>
                 <th>${savedOrder._id}</th>
@@ -30,7 +30,7 @@ router.post("/create", auth, async (req, resp) => {
 
                 <tr>
                 <th>Order Date</th>
-                <th>${data.created_at}</th>
+                <th>${savedOrder.created_at}</th>
                 <th>status</th>
                 <th>${savedOrder.status}</th>
                 </tr>`
