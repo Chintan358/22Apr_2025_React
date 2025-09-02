@@ -4,6 +4,7 @@ const Cart = require("../model/carts")
 const Order = require("../model/orders")
 const OrderItems = require("../model/orderitems")
 const { create } = require("../model/products")
+const nodemailer = require('nodemailer');
 
 router.post("/create", auth, async (req, resp) => {
 
@@ -27,6 +28,28 @@ router.post("/create", auth, async (req, resp) => {
         })
 
 
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'chintan.tops@gmail.com',
+                pass: 'qdvx hcds spls afuk'
+            }
+        });
+
+        let mailOptions = {
+            from: 'chintan.tops@gmail.com',
+            to: user.email,
+            subject: 'ORDER CONFIRMATION',
+            html: '<h1>That was easy!</h1>'
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
         resp.status(201).send({ "success": "Ordered created successfully !!!!" })
 
 
@@ -48,19 +71,19 @@ router.get("/", auth, async (req, resp) => {
                 foreignField: 'order',
                 as: 'order_items',
                 pipeline: [
-                // Nested lookup: fetch product details for each order item
-                {
-                $lookup: {
-                    from: "products", // actual collection name
-                    localField: "product",
-                    foreignField: "_id",
-                    as: "product_details"
-                }
-                },
-                {
-                $unwind: "$product_details" // flatten single product object
-                }
-            ]
+                    // Nested lookup: fetch product details for each order item
+                    {
+                        $lookup: {
+                            from: "products", // actual collection name
+                            localField: "product",
+                            foreignField: "_id",
+                            as: "product_details"
+                        }
+                    },
+                    {
+                        $unwind: "$product_details" // flatten single product object
+                    }
+                ]
             }
         },])
 
