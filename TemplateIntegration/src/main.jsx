@@ -15,6 +15,7 @@ import AdminLogin from "./adminpages/AdminLogin.jsx";
 import { Dashboard } from "./adminpages/Dashboard.jsx";
 import { AdminHome } from "./adminpages/AdminHome.jsx";
 import { Category } from "./adminpages/Category.jsx";
+import { Product } from "./adminpages/Products..jsx";
 
 
 const AuthProvider = ({ children }) => {
@@ -56,10 +57,6 @@ const AdminAuthProvider = ({ children }) => {
   // ✅ If logged in, render children
 
 };
-
-
-
-
 
 const router = createBrowserRouter([
   {
@@ -131,7 +128,11 @@ const router = createBrowserRouter([
       path: "/dashboard/category",
       element: <Category />
     },
-    
+    {
+      path: "/dashboard/products",
+      element: <Product />
+    },
+
 
 
 
