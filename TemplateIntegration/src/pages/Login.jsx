@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../features/users/loginSlice";
 import { useReg } from "../features/users/userSlice"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export const Login = () => {
@@ -115,6 +115,7 @@ export const Login = () => {
                 />
                 <div class="form__btn">
                   <button class="btn" type="submit">Login</button>
+                  <Link to="/forgot">Forgot Password ?</Link>
                 </div>
               </form>
             </div>

@@ -16,6 +16,7 @@ import { Dashboard } from "./adminpages/Dashboard.jsx";
 import { AdminHome } from "./adminpages/AdminHome.jsx";
 import { Category } from "./adminpages/Category.jsx";
 import { Product } from "./adminpages/Products..jsx";
+import { Forgot } from "./pages/Forgot.jsx";
 
 
 const AuthProvider = ({ children }) => {
@@ -107,8 +108,14 @@ const router = createBrowserRouter([
         path: "/details",
         element: <Details />,
       },
+      {
+        path: "/forgot",
+        element: <Forgot />
+      }
 
     ],
+
+
 
   },
   {
