@@ -4,6 +4,7 @@ const User = require("../model/users")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const auth = require("../middleware/auth")
+const nodemailer = require("nodemailer")
 
 router.post("/", async (req, resp) => {
     try {
@@ -137,6 +138,64 @@ router.post("/login", async (req, resp) => {
     }
 
 })
+
+
+router.post("/forgot", async (req, resp) => {
+
+    const email = req.body.email
+
+
+    try {
+
+        const user = await User.findOne({ email: email })
+        if (user) {
+
+            const token = await jwt.sign({ id: user._id }, process.env.FSKEY)
+
+            const link = `http://localhost:5173/changepass?token=${token}`
+
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'chintan.tops@gmail.com',
+                    pass: 'qdvx hcds spls afuk'
+                }
+            });
+
+
+
+
+            let mailOptions = {
+                from: 'chintan.tops@gmail.com',
+                to: user.email,
+                subject: 'Password Reset Link',
+                html: `Click on this link ${link} to reset your passwod`
+            };
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+
+
+            resp.status(200).send({ "message": "link sent on mail" })
+
+        }
+        else {
+            resp.status(404).send({ "message": "User not exist" })
+        }
+
+    } catch (error) {
+        console.log(error);
+
+        resp.status(404).send({ "message": "User not exist" })
+    }
+
+})
+
 
 
 module.exports = router
