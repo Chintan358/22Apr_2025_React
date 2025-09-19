@@ -198,4 +198,29 @@ router.post("/forgot", async (req, resp) => {
 
 
 
+router.post("/resetpassword", async (req, resp) => {
+
+
+    try {
+
+        const { token, pass } = req.body
+        console.log(token + " " + pass);
+
+        const validate = await jwt.verify(token, process.env.FSKEY)
+        if (validate) {
+
+            const data = await User.findByIdAndUpdate(validate.id, { password: await bcrypt.hash(pass, 10) })
+            resp.status(201).send({ "message": "Successfull Reset" })
+        }
+        else {
+            resp.status(403).send({ "message": "Invalid link" })
+        }
+
+    } catch (error) {
+        resp.status(403).send({ "message": "Invalid link" })
+    }
+
+})
+
+
 module.exports = router
