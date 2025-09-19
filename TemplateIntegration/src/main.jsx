@@ -17,6 +17,7 @@ import { AdminHome } from "./adminpages/AdminHome.jsx";
 import { Category } from "./adminpages/Category.jsx";
 import { Product } from "./adminpages/Products..jsx";
 import { Forgot } from "./pages/Forgot.jsx";
+import { ChangePass } from "./pages/ChangePass.jsx";
 
 
 const AuthProvider = ({ children }) => {
@@ -111,7 +112,12 @@ const router = createBrowserRouter([
       {
         path: "/forgot",
         element: <Forgot />
-      }
+      },
+      {
+        path: "/changepass",
+        element: <ChangePass />
+      },
+
 
     ],
 
